@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { MissionService } from '../services/mission.service';
 import { PlanetsService } from '../services/planets.service';
 import { Planet } from '../models/planet';
 
@@ -15,11 +14,7 @@ export class PlanetsComponent implements OnInit {
     selectedPlanet: Planet;
     velocity: number;
 
-    constructor(private planetService: PlanetsService, private missionService: MissionService) {
-        this.missionService.missionConfirmed$.subscribe(v => {
-            this.velocity = v;
-        });
-    }
+    constructor(private planetService: PlanetsService) {}
 
     ngOnInit() {
         this.planetService.getPlanets().then(planets => {

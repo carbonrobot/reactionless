@@ -10,14 +10,14 @@ import { MissionService } from './services/mission.service';
 import { AppComponent } from './app.component';
 import { PlanetsComponent } from './planets/planets.component';
 import { VectorComponent } from './vector/vector.component';
-import { ThrottleComponent } from './throttle/throttle.component';
+import { ShipComponent } from './ship/ship.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlanetsComponent,
     VectorComponent,
-    ThrottleComponent
+    ShipComponent
   ],
   imports: [
     BrowserModule,
