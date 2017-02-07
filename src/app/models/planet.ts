@@ -12,6 +12,6 @@ export class Planet extends Body {
         public plane: number){
 
             super(name, mass, radius, rotation);
-
     }
+
 }

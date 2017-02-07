@@ -5,13 +5,19 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { PlanetsService } from './services/planets.service';
+import { MathService } from './services/math.service';
+import { MissionService } from './services/mission.service';
 import { AppComponent } from './app.component';
 import { PlanetsComponent } from './planets/planets.component';
+import { VectorComponent } from './vector/vector.component';
+import { ThrottleComponent } from './throttle/throttle.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlanetsComponent
+    PlanetsComponent,
+    VectorComponent,
+    ThrottleComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +25,7 @@ import { PlanetsComponent } from './planets/planets.component';
     HttpModule,
     MaterialModule.forRoot()
   ],
-  providers: [PlanetsService],
+  providers: [PlanetsService, MissionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,10 @@
  
-<md-card *ngFor="let planet of planetsList">
+<md-card *ngFor="let planet of planets">
     <md-card-title>{{planet.name}}</md-card-title>
-    <md-card-subtitle>{{planet.distance}} km</md-card-subtitle>
-    <md-card-content></md-card-content>
+    <md-card-subtitle></md-card-subtitle>
+    <md-card-content>
+        <div><strong>Distance to Sol</strong>: {{planet.distance}} km</div>
+        <vector [velocity]="velocity" [target]="planet"></vector>
+    </md-card-content>
     <md-card-footer>{{planet.ttt}}</md-card-footer>
 </md-card>
