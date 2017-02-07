@@ -34,40 +34,54 @@ export class UniverseComponent implements OnInit {
     // add layer to project
     paper.project.addLayer(this.drawBackground());
     paper.project.addLayer(this.drawRadar());
+    paper.project.addLayer(this.drawSun());
 
     paper.view.draw();
   }
 
-  private drawSun(): void {
+  private drawSun() {
+    const bounds = paper.view.bounds;
+
     const layer = new paper.Layer();
-    layer.fitBounds(new paper.Path.Rectangle({
-      point: paper.view.center,
-      size: paper.view.size
-    }));
+    // layer.fitBounds(new paper.Path.Rectangle({
+    //   point: paper.view.center,
+    //   size: paper.view.size
+    // }));
+
+    const c = new paper.Path.Circle(bounds.center, 75);
+    c.fillColor = 'yellow';
+
+    layer.addChild(c);
+
+    return layer;
   }
 
   private drawRadar() {
     const bounds = paper.view.bounds;
 
     const layer = new paper.Layer();
-        
-    for(let i = 0; i < 360; i += 20) {
+
+    for (let i = 0; i < 360; i += 20) {
       const l = new paper.Path.Line(bounds.rightCenter, bounds.leftCenter);
       l.rotate(i + 7);
       layer.addChild(l);
     }
 
+    for (let i = 0; i <= 5; i++) {
+      const c = new paper.Path.Circle(bounds.center, i * 75);
+      layer.addChild(c);
+    }
+
     layer.strokeColor = '#414141';
-    layer.fillColor = 'black';
 
     return layer;
   }
 
-  private drawBackground(){
+  private drawBackground() {
     const bounds = paper.view.bounds;
     const layer = new paper.Layer();
-    
-    const bg = new paper.Path.Rectangle(bounds.topLeft, bounds.bottomRight) ;
+
+    const bg = new paper.Path.Rectangle(bounds.topLeft, bounds.bottomRight);
     layer.addChild(bg);
 
     return layer;
