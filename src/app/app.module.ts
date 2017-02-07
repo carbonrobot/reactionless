@@ -11,13 +11,15 @@ import { AppComponent } from './app.component';
 import { PlanetsComponent } from './planets/planets.component';
 import { VectorComponent } from './vector/vector.component';
 import { ShipComponent } from './ship/ship.component';
+import { UniverseComponent } from './universe/universe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlanetsComponent,
     VectorComponent,
-    ShipComponent
+    ShipComponent,
+    UniverseComponent
   ],
   imports: [
     BrowserModule,
