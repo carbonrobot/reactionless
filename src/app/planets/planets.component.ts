@@ -12,7 +12,6 @@ export class PlanetsComponent implements OnInit {
 
     planets: Planet[];
     selectedPlanet: Planet;
-    velocity: number;
 
     constructor(private planetService: PlanetsService) {}
 

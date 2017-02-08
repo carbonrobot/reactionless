@@ -1,90 +1,157 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 
+import { PlanetsService } from '../services/planets.service';
+import { Planet } from '../models/planet';
+
 declare var paper: any;
 
 @Component({
-  selector: 'universe',
-  templateUrl: './universe.component.html',
-  styleUrls: ['./universe.component.css']
+    selector: 'universe',
+    templateUrl: './universe.component.html',
+    styleUrls: ['./universe.component.css']
 })
 export class UniverseComponent implements OnInit {
 
-  private _worldScale = 1000;
-
-  constructor() { }
-
-  @ViewChild("stage")
-  public stage: ElementRef;
-
-  ngOnInit() { }
-
-  ngAfterViewInit() {
-    let context = this.stage.nativeElement;
-
+    //private _worldScale = 1000;
     // determine world coords scaling
     // we want h,w but the canvas is ch, cw
     // determine which dimension is smaller, and use that
-    let dw = context.height;
-    if (context.width < dw) dw = context.width;
-    let scale = dw / this._worldScale;
+    private context: any;
 
-    paper.setup(context);
-    //paper.view.zoom = 0.25;
 
-    // add layer to project
-    paper.project.addLayer(this.drawBackground());
-    paper.project.addLayer(this.drawRadar());
-    paper.project.addLayer(this.drawSun());
+    private planets: Planet[];
+    private selectedPlanet: Planet;
 
-    paper.view.draw();
-  }
+    private worldSize: number = 4000e+6; // millions of km, e+6
+    private worldScale: number;
+    private worldBounds: any;
 
-  private drawSun() {
-    const bounds = paper.view.bounds;
+    constructor(private planetService: PlanetsService) { }
 
-    const layer = new paper.Layer();
-    // layer.fitBounds(new paper.Path.Rectangle({
-    //   point: paper.view.center,
-    //   size: paper.view.size
-    // }));
+    @ViewChild("stage")
+    public stage: ElementRef;
 
-    const c = new paper.Path.Circle(bounds.center, 75);
-    c.fillColor = 'yellow';
+    ngOnInit() {
+        this.planetService.getPlanets().then(planets => {
+            this.planets = planets;
+            this.selectedPlanet = this.planets.filter((p: Planet) => {
+                // fake it for now
+                // later, do a real selections
+                if (p.name === 'Earth') return p;
+            })[0];
 
-    layer.addChild(c);
-
-    return layer;
-  }
-
-  private drawRadar() {
-    const bounds = paper.view.bounds;
-
-    const layer = new paper.Layer();
-
-    for (let i = 0; i < 360; i += 20) {
-      const l = new paper.Path.Line(bounds.rightCenter, bounds.leftCenter);
-      l.rotate(i + 7);
-      layer.addChild(l);
+            this.render();
+        });
     }
 
-    for (let i = 0; i <= 5; i++) {
-      const c = new paper.Path.Circle(bounds.center, i * 75);
-      layer.addChild(c);
+    ngAfterViewInit() {
+        this.context = this.stage.nativeElement;
+
+        // setup world scaling
+        let dw = this.context.height;
+        if (this.context.width < dw) dw = this.context.width;
+        this.worldScale = dw / this.worldSize;
+        console.log('universe size', `${this.worldSize}e+6 km`);
+        console.log('universe scale', `1px = ${this.worldScale}e+6 km`);
     }
 
-    layer.strokeColor = '#414141';
+    private render(){
+        paper.setup(this.context);
 
-    return layer;
-  }
+        paper.project.addLayer(this.drawBackground());
+        paper.project.addLayer(this.drawRadar());
+        paper.project.addLayer(this.drawSun());
+        paper.project.addLayer(this.drawPlanets());
 
-  private drawBackground() {
-    const bounds = paper.view.bounds;
-    const layer = new paper.Layer();
+        paper.view.draw();
+    }
 
-    const bg = new paper.Path.Rectangle(bounds.topLeft, bounds.bottomRight);
-    layer.addChild(bg);
+    private toWorldScale(value: number) {
+        return value /= this.worldScale;
+    }
 
-    return layer;
-  }
+    private toScreenScale(value: number) {
+        return (value) * this.worldScale;
+    }
+
+    private drawSun() {
+        const bounds = paper.view.bounds;
+
+        const layer = new paper.Layer();
+
+        const radius = 695700; // e+6 km or 695,700 km
+        const r = this.toScreenScale(radius);
+        console.log(`Sun radius ${radius} [${r}]`);
+
+        const c = new paper.Path.Circle(bounds.center, r * 20);
+        c.fillColor = 'yellow';
+
+        layer.addChild(c);
+
+        return layer;
+    }
+
+    private drawPlanets() {
+        const bounds = paper.view.bounds;
+
+        const layer = new paper.Layer();
+
+        this.planets.forEach(planet => {
+
+            // determine orbital distance from center
+            let d = planet.distance;
+            d = this.toScreenScale(d);
+
+            let r = planet.radius;
+            r = this.toScreenScale(r) * 1000;
+
+            console.log(`${planet.name} distance ${planet.distance} [${d}] radius ${planet.radius} [${r}]`);
+
+            // draw orbital
+            const o = new paper.Path.Circle(bounds.center, d);
+            o.strokeColor = '#EFEFEF';
+
+            // draw planet
+            const p = new paper.Path.Circle(bounds.center.add([d, 0]), r);
+            p.fillColor = '#D1FFF4';
+
+            layer.addChild(o);
+            layer.addChild(p);
+
+        });
+
+        return layer;
+    }
+
+    private drawRadar() {
+        const bounds = paper.view.bounds;
+
+        const layer = new paper.Layer();
+
+        for (let i = 0; i < 360; i += 20) {
+            const l = new paper.Path.Line(bounds.rightCenter, bounds.leftCenter);
+            l.rotate(i + 7);
+            layer.addChild(l);
+        }
+
+        // for (let i = 0; i <= 5; i++) {
+        //     const c = new paper.Path.Circle(bounds.center, i * 75);
+        //     layer.addChild(c);
+        // }
+
+        layer.strokeColor = '#414141';
+
+        return layer;
+    }
+
+    private drawBackground() {
+        const bounds = paper.view.bounds;
+        const layer = new paper.Layer();
+
+        const bg = new paper.Path.Rectangle(bounds.topLeft, bounds.bottomRight);
+        layer.addChild(bg);
+
+        return layer;
+    }
 
 }
