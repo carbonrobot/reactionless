@@ -1,13 +1,11 @@
-.vector {
-    margin-bottom: 10px;
-    padding: 5px;
+:host {
+    display: table-row;
+    background: #f6f6f6;
 }
-
-.vector-data {
-    list-style: none;
+:host:nth-of-type(odd){
+    background: #e9e9e9
 }
-
-.vector-data>li {
-    margin: 0;
-    padding: 0;
+:host td {
+    padding: 6px 12px;
+  display: table-cell;
 }

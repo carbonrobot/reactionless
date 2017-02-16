@@ -1,0 +1,18 @@
+table {
+    margin: 0 0 40px 0;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    display: table;
+    margin-bottom: 15px;
+}
+
+table th {
+    font-weight: 700;
+    color: #ffffff;
+    background: #ea6153;
+    padding: 7px;
+}
+
+.origin-selector {
+    margin-bottom: 15px;
+}

@@ -13,13 +13,13 @@ export class VectorComponent implements OnInit, OnChanges {
 
     private model: IShipModel;
 
-    // time to target
+    // time to target, in hours
     public ttt: number = 0;
 
-    // angle to target
+    // angle to target, in degrees
     public att: number = 0;
 
-    // dist to target
+    // dist to target, in kilometers
     public dtt: number = 0;
 
     // TODO should move to the ship

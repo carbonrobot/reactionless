@@ -1,0 +1,11 @@
+/* tslint:disable:no-unused-variable */
+
+import { TestBed, async } from '@angular/core/testing';
+import { UnitsPipe } from './units.pipe';
+
+describe('UnitsPipe', () => {
+  it('create an instance', () => {
+    const pipe = new UnitsPipe();
+    expect(pipe).toBeTruthy();
+  });
+});

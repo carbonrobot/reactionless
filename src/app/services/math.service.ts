@@ -3,9 +3,14 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class MathService {
 
-    private static conversions: Array<number> = new Array<number>();
-
-    //constructor() { this.init(); }
+    private static conversions = {
+        'au:km': 1.496e8,
+        'km:au': 6.68459e-9,
+        'ly:km': 9.461e12,
+        'km:ly': 1.057e-13,
+        'km/s:km/h': 1 / 60,
+        'km/h:km/s': 60
+    };
 
     // convert units
     public static convert(from: string, to: string, value: number) {
@@ -38,17 +43,5 @@ export class MathService {
     private static mod(i: number, j: number):number {
         return i - Math.floor(i / j) * j;
     }
-
-    // //private init(): void {
-    //     // distance
-    //     conversions['au:km'] = 1.496e8;
-    //     this.conversions['km:au'] = 1 / 1.496e8;
-    //     this.conversions['ly:km'] = 9.461e12;
-    //     this.conversions['km:ly'] = 1 / 9.461e12;
-
-    //     // velocity
-    //     this.conversions['km/s:km/h'] = 1 / 60;
-    //     this.conversions['km/h:km/s'] = 60;
-    // //}
 
 }

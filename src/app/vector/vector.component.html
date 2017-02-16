@@ -1,9 +1,15 @@
-<div class="vector">
+<!--<div class="vector">
     <ul class="vector-data">
-        <li>Planet: {{target.name}}</li>
-        <li>Distance to Sol: {{target.distance}} km</li>
-        <li>Distance from {{source.name}}: {{dtt}} km</li>
-        <li>Angular position from {{source.name}}: {{att}}&ordm;</li>
-        <li>Travel Time from {{source.name}}: {{ttt/24/7}} weeks</li>
+        <li>Planet: {{ target.name }}</li>
+        <li>Distance to Sol: {{ target.distance | units:"km":"au" }} au</li>
+        <li>Distance from {{ source.name }}: {{dtt | units:"km":"au" }} au</li>
+        <li>Angular position from {{ source.name }}: {{ att }}&ordm;</li>
+        <li>Travel Time from {{ source.name }}: {{ ttt | timespan }}</li>
     </ul>
-</div>
+</div>-->
+
+    <td>{{ target.name }}</td>
+    <td>{{ target.distance | units:"km":"au" }} au</td>
+    <td>{{dtt | units:"km":"au" }} au</td>
+    <td>{{ att }}&ordm;</td>
+    <td>{{ ttt | timespan }}</td>

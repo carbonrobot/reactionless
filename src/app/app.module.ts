@@ -12,6 +12,8 @@ import { PlanetsComponent } from './planets/planets.component';
 import { VectorComponent } from './vector/vector.component';
 import { ShipComponent } from './ship/ship.component';
 import { UniverseComponent } from './universe/universe.component';
+import { UnitsPipe } from './pipes/units.pipe';
+import { TimespanPipe } from './pipes/timespan.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { UniverseComponent } from './universe/universe.component';
     PlanetsComponent,
     VectorComponent,
     ShipComponent,
-    UniverseComponent
+    UniverseComponent,
+    UnitsPipe,
+    TimespanPipe
   ],
   imports: [
     BrowserModule,

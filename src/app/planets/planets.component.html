@@ -1,4 +1,4 @@
-<div>
+<div class="origin-selector">
     <label>Origin</label>
     <select name="origin" [(ngModel)]="selectedPlanet">
         <option *ngFor="let planet of planets" [ngValue]="planet">  
@@ -8,6 +8,15 @@
 </div>
 
 <table>
+    <thead>
+        <tr>
+            <th>Planet</th>
+            <th>Distance to Sol</th>
+            <th>Distance to {{selectedPlanet?.name}}</th>
+            <th>Vector to {{selectedPlanet?.name}}</th>
+            <th>Time to {{selectedPlanet?.name}}</th>
+        </tr>
+    </thead>
     <tbody>
         <vector [source]="selectedPlanet" [target]="planet" *ngFor="let planet of planets"></vector>
     </tbody>
