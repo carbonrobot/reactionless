@@ -1,0 +1,13 @@
+.vector {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.vector-data {
+    list-style: none;
+}
+
+.vector-data>li {
+    margin: 0;
+    padding: 0;
+}

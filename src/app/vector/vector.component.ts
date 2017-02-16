@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges } from '@angular/core';
 
 import { Planet } from '../models/planet';
 import { MathService } from '../services/math.service';
@@ -9,7 +9,7 @@ import { MissionService, IShipModel } from '../services/mission.service';
     templateUrl: './vector.component.html',
     styleUrls: ['./vector.component.css']
 })
-export class VectorComponent implements OnInit {
+export class VectorComponent implements OnInit, OnChanges {
 
     private model: IShipModel;
 
@@ -24,11 +24,14 @@ export class VectorComponent implements OnInit {
 
     // TODO should move to the ship
     calculateTime(){
-        //this.ttt = this.target.distance / this.velocity;
-        // find the angle between targets
+
+        // use the sun as the origin of a triangle and calculate the angle between targets
         this.att = MathService.signedAngle(this.source.position, this.target.position);
         this.dtt = MathService.lawOfCosines(this.source.distance, this.target.distance, this.att);
-        this.ttt = this.dtt / this.model.velocity;
+
+        if(this.model){
+            this.ttt = this.dtt / this.model.velocity;
+        }
 
         // TODO: include accel/decel
         // calculate the travel time based on accel/cruise/decel time
@@ -51,6 +54,12 @@ export class VectorComponent implements OnInit {
         });
     }
 
-    ngOnInit() { }
+    ngOnInit() { 
+        this.calculateTime();
+    }
+
+    ngOnChanges(){
+        this.calculateTime();
+    }
 
 }
