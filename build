@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+
+IMG_NAME=reactionless-app
+HOST_NAME=168765413198.dkr.ecr.us-east-1.amazonaws.com
+
+# login to 
+eval $(aws ecr get-login --region us-east-1)
+
+# build the docker image
+docker build -t $IMG_NAME .
+
+# tag it with latest for aws registry
+docker tag $IMG_NAME:latest $HOST_NAME/$IMG_NAME:latest
+
+# push it to the registry
+docker push $HOST_NAME/$IMG_NAME:latest
+
